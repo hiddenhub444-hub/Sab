@@ -122,16 +122,6 @@ Instance.new("UICorner", tpButton)
 
 tpButton.MouseButton1Click:Connect(teleport)
 
--- SPEED LABEL (VERY SMALL)
-local speedLabel = Instance.new("TextLabel", frame)
-speedLabel.Size = UDim2.new(1, 0, 0, 12)
-speedLabel.Position = UDim2.new(0, 0, 0, 50)
-speedLabel.Text = "TP Speed: "..tpSpeed
-speedLabel.TextSize = 9
-speedLabel.Font = Enum.Font.Gotham
-speedLabel.TextColor3 = Color3.fromRGB(255,255,255)
-speedLabel.BackgroundTransparency = 1
-
 -- SPEED +
 local plus = Instance.new("TextButton", frame)
 plus.Size = UDim2.new(0, 26, 0, 26)
