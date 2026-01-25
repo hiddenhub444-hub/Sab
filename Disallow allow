@@ -1,0 +1,47 @@
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local player = Players.LocalPlayer
+
+local remote = ReplicatedStorage.Packages.Net["RE/PlotService/ToggleFriends"]
+
+local currentState = nil -- nil = unknown, true = allow, false = disallow
+local debounce = false
+
+local function fire(desiredState)
+	if debounce then return end
+	if currentState == desiredState then return end
+
+	debounce = true
+	currentState = desiredState
+
+	pcall(function()
+		remote:FireServer()
+	end)
+
+	task.delay(1, function()
+		debounce = false
+	end)
+end
+
+-- PC keybinds
+UserInputService.InputBegan:Connect(function(input, gp)
+	if gp then return end
+
+	if input.KeyCode == Enum.KeyCode.F then
+		fire(false) -- DISALLOW
+	elseif input.KeyCode == Enum.KeyCode.P then
+		fire(true) -- ALLOW
+	end
+end)
+
+-- Mobile / chat commands
+player.Chatted:Connect(function(msg)
+	if msg == "." then
+		fire(true) -- ALLOW
+	elseif msg == "/" then
+		fire(false) -- DISALLOW
+	end
+end)
+
